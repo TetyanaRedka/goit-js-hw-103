@@ -3,9 +3,12 @@ import menuCards from './menu.json';
 import './styles.css';
 
 const changeStyleBtn = document.querySelector('.theme-switch__toggle');
-const bodyEl = document.querySelector('body');
 const listMenu = document.querySelector('.js-menu');
 const cardMenu = createMenuCard(menuCards);
+const Theme = {
+  LIGHT: 'light-theme',
+  DARK: 'dark-theme',
+};
 startStyle();
 
 listMenu.insertAdjacentHTML('beforeend', cardMenu);
@@ -16,19 +19,16 @@ function createMenuCard(menuCards) {
 }
 
 function startStyle() {
-  if (localStorage.getItem('theme') === 'dark-theme') {
-    bodyEl.classList.add('dark-theme');
+  if (localStorage.getItem('theme') === Theme.DARK) {
+    document.body.classList.add(Theme.DARK);
     changeStyleBtn.setAttribute('checked', 'checked');
+  } else {
+    document.body.classList.add(Theme.LIGHT);
   }
 }
 
 function changeStyle(e) {
-  if (!bodyEl.className) {
-    bodyEl.classList.add('dark-theme');
-  } else {
-    localStorage.removeItem('theme');
-    bodyEl.classList.toggle('light-theme');
-    bodyEl.classList.toggle('dark-theme');
-  }
-  localStorage.setItem('theme', bodyEl.className);
+  document.body.classList.toggle(Theme.LIGHT);
+  document.body.classList.toggle(Theme.DARK);
+  localStorage.setItem('theme', document.body.className);
 }
